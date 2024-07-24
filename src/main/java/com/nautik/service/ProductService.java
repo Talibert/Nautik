@@ -2,7 +2,6 @@ package com.nautik.service;
 
 import com.nautik.dto.request.ProductRequestDTO;
 import com.nautik.entities.Product;
-import com.nautik.exceptions.CourseNotFoundException;
 import com.nautik.exceptions.ProductNotFoundException;
 import com.nautik.types.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
