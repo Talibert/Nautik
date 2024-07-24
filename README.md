@@ -1,38 +1,14 @@
-# ProjetoCOOP
-Projeto realizado com um amigo onde eu fiquei encarregado de desenvolver o BackEnd e ele o FrontEnd da aplicação. O projeto será um CRUD que irá simular uma plataforma de estudos com alunos, professores e cursos de tecnologia.  O intuíto principal é desenvolver nossas habilidades de trabalho em equipe e comunicação. Esse projeto é para armazenar o BackEnd apenas.
+# ProjetoNautik
+O projeto representa uma API para alimentar o site da empresa Nautik
 
 Lista de EndPoints da aplicação:
 
-POST -> /enrollment -> cria uma matrícula
+POST -> /product -> cria um produtos
 
-GET -> /enrollment -> recupera uma matrícula ou uma lista de matrículas
+GET -> /product -> recupera uma produto ou uma lista de produtos
 
-PUT -> /enrollment -> atualiza uma matrícula
+PUT -> /product -> atualiza uma produto
 
-DEL -> /enrollment -> deleta uma matrícula
-
-
-POST -> /course -> cria um curso
-
-GET -> /course -> recupera um curso ou uma lista de cursos
-
-PUT -> /course -> atualiza um curso
-
-DEL -> /course -> deleta um curso
-
-
-POST -> /student -> cria um estudante
-
-GET -> /student -> recupera um estudante ou uma lista de estudantes
-
-PUT -> /student -> atualiza um estudante
-
-DEL -> /student -> deleta um estudante
-
-
-GET -> /courseType -> recupera os tipos de cursos
-
-
-GET -> /teacher -> recupera os professores
+DEL -> /product -> deleta uma produto
 
 
