@@ -1,6 +1,11 @@
 package com.nautik.service;
 
+import com.nautik.dto.request.ProductRequestDTO;
+import com.nautik.entities.Product;
 import com.nautik.exceptions.CourseNotFoundException;
+import com.nautik.exceptions.ProductNotFoundException;
+import com.nautik.repositories.ProductRepository;
+import com.nautik.types.Categories;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,17 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class CourseServiceTest {
 
     @Mock
-    private CourseRepository courseRepository;
+    private ProductRepository productRepository;
 
     @Mock
-    private CourseRequestDTO courseRequestDTO;
+    private ProductRequestDTO productRequestDTO;
 
     @Mock
-    private Course course;
+    private Product product;
 
     @Spy
     @InjectMocks
-    private CourseService courseService;
+    private ProductService productService;
 
     private AutoCloseable autoCloseable;
 
@@ -44,119 +49,87 @@ class CourseServiceTest {
      */
     @Test
     public void testeFindById(){
-        Optional<Course> courseOptional = Optional.of(course);
+        Optional<Product> productOptional = Optional.of(product);
         Long id = 1L;
-        Course expected = courseOptional.get();
-        Mockito.when(courseRepository.findById(id)).thenReturn(courseOptional);
+        Product expected = productOptional.get();
+        Mockito.when(productRepository.findById(id)).thenReturn(productOptional);
 
-        Course result = courseService.findById(id);
+        Product result = productService.findById(id);
 
         assertEquals(expected, result);
-        Mockito.verify(courseRepository, Mockito.times(1)).findById(id);
+        Mockito.verify(productRepository, Mockito.times(1)).findById(id);
     }
 
     /**
-     * Captura uma exception lançada por não encontrar o usuário e verifica se a mensagem está correta
+     * Captura uma exception lançada por não encontrar o produto e verifica se a mensagem está correta
      */
     @Test
     public void testeFindByIdException(){
-        Optional<Course> courseOptional = Optional.empty();
+        Optional<Product> productOptional = Optional.empty();
         Long id = 1L;
-        Mockito.when(courseRepository.findById(id)).thenReturn(courseOptional);
-        String expectedMessage = "O curso de id: " + id + " não existe!";
+        Mockito.when(productRepository.findById(id)).thenReturn(productOptional);
+        String expectedMessage = "O produto de id: " + id + " não existe!";
 
-        Exception exception = assertThrows(CourseNotFoundException.class, () -> {
-            courseService.findById(id);
+        Exception exception = assertThrows(ProductNotFoundException.class, () -> {
+            productService.findById(id);
         });
 
         String resultMessage = exception.getMessage();
 
         assertEquals(expectedMessage, resultMessage);
 
-        Mockito.verify(courseRepository, Mockito.times(1)).findById(id);
+        Mockito.verify(productRepository, Mockito.times(1)).findById(id);
     }
 
     /**
-     * Verifica se a chamada do repository filtrada pelo courseType irá acontecer.
+     * Verifica se a chamada do repository filtrada pelo Category irá acontecer.
      */
     @Test
-    public void testeGetCourseListByCoursesType(){
-        List<Course> expectedList = List.of(course);
+    public void testeGetProductByCategory(){
+        List<Product> expectedList = List.of(product);
 
-        Mockito.when(courseRepository.findByCoursesType(Mockito.any())).thenReturn(expectedList);
+        Mockito.when(productRepository.findByCategory(Mockito.any())).thenReturn(expectedList);
 
-        List<Course> resultList = courseService.getCourseList("JAVA", null, null);
+        List<Product> resultList = productService.getProductList(null, Categories.MOTORES);
 
         assertEquals(expectedList, resultList);
 
-        Mockito.verify(courseRepository, Mockito.times(1)).findByCoursesType(Mockito.any());
-    }
-
-    /**
-     * Verifica se a chamada do repository filtrada pelo teacher irá acontecer.
-     */
-    @Test
-    public void testeGetCourseListByTeacher(){
-        List<Course> expectedList = List.of(course);
-
-        Mockito.when(courseRepository.findByTeacher(Mockito.any())).thenReturn(expectedList);
-
-        List<Course> resultList = courseService.getCourseList(null, "Taliba", null);
-
-        assertEquals(expectedList, resultList);
-
-        Mockito.verify(courseRepository, Mockito.times(1)).findByTeacher(Mockito.any());
-    }
-
-    /**
-     * Verifica se a chamada do repository filtrada pelo especialization irá acontecer.
-     */
-    @Test
-    public void testeGetCourseListByEspecialization(){
-        List<Course> expectedList = List.of(course);
-
-        Mockito.when(courseRepository.findByEspecialization(Mockito.any())).thenReturn(expectedList);
-
-        List<Course> resultList = courseService.getCourseList(null, null, "Back-End");
-
-        assertEquals(expectedList, resultList);
-
-        Mockito.verify(courseRepository, Mockito.times(1)).findByEspecialization(Mockito.any());
+        Mockito.verify(productRepository, Mockito.times(1)).findByCategory(Mockito.any());
     }
 
     /**
      * Verifica se a chamada do repository sem filtros irá acontecer.
      */
     @Test
-    public void testeGetCourseList(){
-        List<Course> expectedList = List.of(course);
+    public void testeGetProductList(){
+        List<Product> expectedList = List.of(product);
 
-        Mockito.when(courseRepository.findAll()).thenReturn(expectedList);
+        Mockito.when(productRepository.findAll()).thenReturn(expectedList);
 
-        List<Course> resultList = courseService.getCourseList(null, null, null);
+        List<Product> resultList = productService.getProductList(null, null);
 
         assertEquals(expectedList, resultList);
 
-        Mockito.verify(courseRepository, Mockito.times(1)).findAll();
+        Mockito.verify(productRepository, Mockito.times(1)).findAll();
     }
 
     /**
      * Captura uma exception lançada por não encontrar nenhum curso e verifica se a mensagem está correta
      */
     @Test
-    public void testeGetCourseListException(){
-        List<Course> emptyList = new ArrayList<>();
-        Mockito.when(courseRepository.findAll()).thenReturn(emptyList);
-        String expectedMessage = "Nenhum curso encontrado";
+    public void testeGetProductListException(){
+        List<Product> emptyList = new ArrayList<>();
+        Mockito.when(productRepository.findAll()).thenReturn(emptyList);
+        String expectedMessage = "Nenhum produto encontrado";
 
-        Exception exception = assertThrows(CourseNotFoundException.class, () -> {
-            courseService.getCourseList(null, null, null);
+        Exception exception = assertThrows(ProductNotFoundException.class, () -> {
+            productService.getProductList(null, null);
         });
 
         String resultMessage = exception.getMessage();
 
         assertEquals(expectedMessage, resultMessage);
 
-        Mockito.verify(courseRepository, Mockito.times(1)).findAll();
+        Mockito.verify(productRepository, Mockito.times(1)).findAll();
     }
 }

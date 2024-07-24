@@ -3,7 +3,7 @@ package com.nautik.service;
 import com.nautik.dto.request.ProductRequestDTO;
 import com.nautik.entities.Product;
 import com.nautik.exceptions.CourseNotFoundException;
-import com.nautik.repositories.ProductRepository;
+import com.nautik.exceptions.ProductNotFoundException;
 import com.nautik.types.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private com.nautik.repositories.ProductRepository productRepository;
 
     /**
      * Encontra um produto através do Id recebido
@@ -26,7 +26,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){
-            throw new CourseNotFoundException("O produto de id: " + id + " não existe!");
+            throw new ProductNotFoundException("O produto de id: " + id + " não existe!");
         }
 
         return product.get();
@@ -48,7 +48,7 @@ public class ProductService {
         }
 
         if (productList.isEmpty()){
-            throw new CourseNotFoundException("Nenhum produto encontrado");
+            throw new ProductNotFoundException("Nenhum produto encontrado");
         }
 
         return productList;
