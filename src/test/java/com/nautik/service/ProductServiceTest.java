@@ -2,7 +2,6 @@ package com.nautik.service;
 
 import com.nautik.dto.request.ProductRequestDTO;
 import com.nautik.entities.Product;
-import com.nautik.exceptions.CourseNotFoundException;
 import com.nautik.exceptions.ProductNotFoundException;
 import com.nautik.repositories.ProductRepository;
 import com.nautik.types.Categories;
@@ -17,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseServiceTest {
+class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
